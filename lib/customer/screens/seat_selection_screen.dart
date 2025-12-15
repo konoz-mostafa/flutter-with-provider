@@ -30,6 +30,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   @override
   void initState() {
     super.initState();
+<<<<<<< HEAD
     _startListening();
   }
 
@@ -67,6 +68,23 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
     super.dispose();
   }
 
+=======
+    _fetchCurrentBookings();
+  }
+
+  Future<void> _fetchCurrentBookings() async {
+    final bookingProvider = Provider.of<BookingProvider>(context, listen: false);
+    await bookingProvider.getBookings(
+      widget.movie.id.toString(),
+      widget.timeSlot,
+    );
+    setState(() {
+      _currentBookings = bookingProvider.currentBookings;
+      _loading = false;
+    });
+  }
+
+>>>>>>> ba0a87a4cc226998dda372a8ea7764a29175f4ec
   String _getSeatStatus(String seatId) {
     for (var booking in _currentBookings) {
       if (booking.seats.contains(seatId)) {
@@ -182,6 +200,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
           ),
         );
       } else {
+<<<<<<< HEAD
         // Show more specific error message
         final errorMessage = bookingProvider.error ?? 'Unknown error';
         String userMessage;
@@ -198,6 +217,13 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 4),
+=======
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error booking seats: ${bookingProvider.error ?? "Unknown error"}'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+>>>>>>> ba0a87a4cc226998dda372a8ea7764a29175f4ec
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -299,7 +325,11 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     if (_loading && _currentBookings.isEmpty) {
+=======
+    if (_loading) {
+>>>>>>> ba0a87a4cc226998dda372a8ea7764a29175f4ec
       return Scaffold(
         body: Center(
           child: Column(

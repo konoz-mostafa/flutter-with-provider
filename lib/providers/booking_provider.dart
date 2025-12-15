@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+<<<<<<< HEAD
 import 'dart:async';
+=======
+>>>>>>> ba0a87a4cc226998dda372a8ea7764a29175f4ec
 import '../customer/models/booking.dart';
 
 class BookingProvider with ChangeNotifier {
@@ -9,12 +12,16 @@ class BookingProvider with ChangeNotifier {
   List<Booking> _currentBookings = [];
   bool _loading = false;
   String? _error;
+<<<<<<< HEAD
   StreamSubscription<QuerySnapshot>? _bookingsSubscription;
+=======
+>>>>>>> ba0a87a4cc226998dda372a8ea7764a29175f4ec
 
   List<Booking> get currentBookings => _currentBookings;
   bool get loading => _loading;
   String? get error => _error;
 
+<<<<<<< HEAD
   // Real-time stream for bookings - automatically updates when bookings change
   void listenToBookings(String movieId, String timeSlot) {
     _loading = true;
@@ -68,6 +75,8 @@ class BookingProvider with ChangeNotifier {
     _bookingsSubscription = null;
   }
 
+=======
+>>>>>>> ba0a87a4cc226998dda372a8ea7764a29175f4ec
   Future<List<Booking>> getBookings(String movieId, String timeSlot) async {
     _loading = true;
     notifyListeners();
@@ -112,14 +121,18 @@ class BookingProvider with ChangeNotifier {
     }
   }
 
+<<<<<<< HEAD
   // Transaction-based booking to prevent race conditions
   // This ensures that if two customers try to book the same seat simultaneously,
   // only one will succeed
+=======
+>>>>>>> ba0a87a4cc226998dda372a8ea7764a29175f4ec
   Future<bool> createBooking(Booking booking) async {
     _loading = true;
     notifyListeners();
 
     try {
+<<<<<<< HEAD
       // Use transaction to ensure atomic booking
       final bookingId = await _db.runTransaction((transaction) async {
         // Check if any of the selected seats are already booked
@@ -156,6 +169,15 @@ class BookingProvider with ChangeNotifier {
         });
 
         return bookingRef.id;
+=======
+      final bookingRef = await _db.collection('bookings').add({
+        'userEmail': booking.userEmail,
+        'movieId': booking.movieId,
+        'seats': booking.seats,
+        'timeSlot': booking.timeSlot,
+        'dateTime': Timestamp.fromDate(booking.dateTime),
+        'createdAt': FieldValue.serverTimestamp(),
+>>>>>>> ba0a87a4cc226998dda372a8ea7764a29175f4ec
       });
 
       // Get movie title for notification
@@ -178,7 +200,11 @@ class BookingProvider with ChangeNotifier {
         'type': 'booking',
         'title': 'New Booking',
         'message': '${booking.userEmail} booked ${booking.seats.length} seat(s) for "$movieTitle" at ${booking.timeSlot}',
+<<<<<<< HEAD
         'bookingId': bookingId,
+=======
+        'bookingId': bookingRef.id,
+>>>>>>> ba0a87a4cc226998dda372a8ea7764a29175f4ec
         'movieId': booking.movieId,
         'movieTitle': movieTitle,
         'userEmail': booking.userEmail,
@@ -199,6 +225,7 @@ class BookingProvider with ChangeNotifier {
       return false;
     }
   }
+<<<<<<< HEAD
 
   @override
   void dispose() {
@@ -206,3 +233,8 @@ class BookingProvider with ChangeNotifier {
     super.dispose();
   }
 }
+=======
+}
+
+
+>>>>>>> ba0a87a4cc226998dda372a8ea7764a29175f4ec
